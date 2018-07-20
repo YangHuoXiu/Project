@@ -460,6 +460,7 @@ public class UserDaoImpl implements UserDao {
 	 * @param user 用户信息
 	 * @return 更新成功的返回true，否则返回false
 	 */
+	
 	public boolean updateUser(UserVO user) {
 		PreparedStatement prep = null;
 		boolean flag = false;
@@ -473,10 +474,15 @@ public class UserDaoImpl implements UserDao {
 		String status = user.getStatus();
 		try {
 
-			prep = conn.prepareStatement("update T_USER set id='" + id
-					+ "',userid='" + userid + "',name='" + name + "',pass='"
-					+ pass + "',mail='" + mail + "',power='" + power
-					+ "',status='" + status + "' where id='" + id + "' ");
+			prep = conn.prepareStatement("update T_USER set userid=?,name=?,pass=?,mail=?,power=?,birth=?,status=?where id=?");
+			prep.setString(1, user.getUserid());
+			prep.setString(2,user.getName());
+			prep.setString(3, user.getPass());
+			prep.setString(4, user.getMail());
+			prep.setString(5, user.getPower());
+			prep.setDate(6,new java.sql.Date(user.getBirth().getTime()));
+			prep.setString(7, user.getStatus());
+			prep.setInt(8,user.getId());
 			prep.executeUpdate();
 			flag = true;
 		} catch (SQLException e) {
@@ -486,8 +492,30 @@ public class UserDaoImpl implements UserDao {
 		} finally {
 			DBUtil.closeStatement(null, prep);
 		}
-
 		return flag;
+	}	
+	//功能还未可以
+	public boolean deleteSelect(int[] str)
+	{
+		PreparedStatement prep=null;
+		Connection conn=null;
+		boolean flag=false;
+		String sql = "delete from T_USER where id in ('"+str[0]+"'"+"'" + str[1]+ "'"+"'"+str[2]+"'"+"'"+str[3]+"'"+"'"+str[4]+"')";
+		  try {
+			  System.out.println(str[0]+" "+str[1]+" "+str[2]+str[3]+str[4]);
+				prep=conn.prepareStatement(sql);
+				System.out.println(str[0]+" "+str[1]+" "+str[2]+str[3]+str[4]);
+				prep.executeUpdate();
+				flag = true;
+				System.out.println(flag);
+			} catch (SQLException e) {
+				System.out.println("运行sql语句时出现错误" + e.getMessage());
+				// 将异常封装成自定义异常
+				throw new DaoException("登录语句时批量删除失败！", e);
+			} finally {
+				DBUtil.closeStatement(null, prep);
+			}
+			return flag;
+		
 	}
-
 }

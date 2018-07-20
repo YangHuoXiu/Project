@@ -389,5 +389,30 @@ public class UserServiceImpl implements UserService {
 		}
 		return num;
 	}
+	
+	public boolean deleteSelect(int[] str){
+		// 声明数据库连接对象，用于保存数据库连接对象
+		Connection conn = null;
+		// 声明变量，用于保存数据库插入结果
+		boolean flag = false;
+		try {
+		   // 调用数据库工具类的getConnection方法，取得数据库连接对象，并赋值给数据库连接对象变量
+			conn = DBUtil.getConnection();
+			// 调用dao工厂类的getDao方法，取得指定类型的dao接口的实现类，并复制给dao接口变量
+			UserDao userMgrDao = (UserDao) DaoFactory.getDao(conn,EnumType.USER_DAO);
+			// 调用数据库工具类的beginTransaction方法，开始事务
+			DBUtil.beginTransaction(conn);
+			// 调用dao中的register方法，进行数据库的注册操作
+			flag = userMgrDao.deleteSelect(str);
+	       // 调用工具类的commit方法，提交事务
+			DBUtil.commit(conn);
+				} catch (DaoException e) {
+					// 将自定义异常并抛出
+					throw e;
+					}finally {
+						DBUtil.closeConncetion(conn);
+					}
+					return flag;
+	}
 
 }

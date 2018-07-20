@@ -90,6 +90,13 @@ public interface UserService {
 	 */
 	public int getRecordCount();
 	
+	/**
+	 * 批量删除用户
+	 * @param str 数组
+	 * @return 成功时返回true，否者返回false
+	 */
+	public boolean deleteSelect(int[] str);
+	
 	
 
 }

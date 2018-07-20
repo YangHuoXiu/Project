@@ -105,6 +105,20 @@ public class UserController {
 		}
 		return flag;
 	}
+	
+	public boolean doDeleteSelect(int[] str)
+	{
+		boolean flag=false;
+		try{
+			flag=userMgrService.deleteSelect(str);
+		}
+		catch(Exception e)
+		{
+			//显示异常信息
+			System.out.println("批量删除用户出错"+e.getMessage());
+		}
+		return flag;
+	}
 	/**
 	 * 更新用户
 	 * @param user 用户信息

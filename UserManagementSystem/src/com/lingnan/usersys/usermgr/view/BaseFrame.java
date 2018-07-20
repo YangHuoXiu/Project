@@ -54,4 +54,9 @@ public interface BaseFrame {
 	 * 删除
 	 */
 	public void deleteShow();
+	
+	/**
+	 * 批量删除用户
+	 */
+	public void deleteSelectShow();
 }

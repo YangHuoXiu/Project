@@ -84,6 +84,13 @@ public interface UserDao extends BaseDao{
 	 */
 	public int getRecordCount();
 	
+	/**
+	 * 批量删除用户
+	 * @param str 数组
+	 * @return 批量删除成功返回true 否者返回false
+	 */
+	public boolean deleteSelect(int[] str);
+	
 
 
 }

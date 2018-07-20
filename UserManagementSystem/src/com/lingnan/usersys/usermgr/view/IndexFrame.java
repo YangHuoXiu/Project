@@ -9,7 +9,10 @@ import java.util.Vector;
 
 import com.lingnan.usersys.common.constant.EnumType;
 import com.lingnan.usersys.common.exception.DateException;
+import com.lingnan.usersys.common.util.CheckDateUtil;
+import com.lingnan.usersys.common.util.CheckIntegerUtil;
 import com.lingnan.usersys.common.util.CheckMailUtil;
+import com.lingnan.usersys.common.util.CheckNameUtil;
 import com.lingnan.usersys.common.util.TurnDateUtil;
 import com.lingnan.usersys.usermgr.controller.UserController;
 import com.lingnan.usersys.usermgr.domain.UserVO;
@@ -140,8 +143,15 @@ public class IndexFrame implements BaseFrame {
 				}
 			}
 			user.setPower("普通用户");
+			while(true){
 			System.out.println("请输入您的出生日期(YYYY-MM-DD)：");
-			user.setBirth(TurnDateUtil.StrToDate(br.readLine()));
+			String birth=br.readLine();
+			if(CheckDateUtil.testDate(birth))
+			{
+				user.setBirth(TurnDateUtil.StrToDate(birth));
+				break;
+			}
+			}
 			// 调用控制器中的doLogin方法，进行用户登录操作
 			
 			boolean binsert = uc.doRegister(user);
@@ -207,10 +217,12 @@ public class IndexFrame implements BaseFrame {
 		System.out.println("用户查询界面");
 		System.out.println("=====================");
 		try {
+			boolean flag=false;
 			UserController uc = new UserController();
 			Vector<UserVO> v = new Vector<UserVO>();
 			System.out.println("请输入您要查找的用户名：");
 			String name = br.readLine();
+			if(CheckNameUtil.checkNameTest(name)){
 			v = uc.doFindUserByName(name);
 			System.out.println("用户信息如下");
 			// 循环
@@ -219,6 +231,10 @@ public class IndexFrame implements BaseFrame {
 						+ "\t" + user.getName() + "\t" + user.getPass() + "\t"
 						+ "\t" + user.getMail() + "\t" + user.getPower() + "\t"
 						+ user.getBirth() + "\t" + user.getStatus());
+			}
+			else{
+				System.out.println("你要查找的用户名不存在！");
+			}
 		} catch (Exception e) {
 			// 显示异常信息
 			System.out.println("用户信息查询不到" + e.getMessage());
@@ -259,16 +275,29 @@ public class IndexFrame implements BaseFrame {
 		System.out.println("=====================");
 		try {
 			UserController uc = new UserController();
+			String uid=null;
+			while(true){
 			System.out.println("请输入编号：");
-			int id = Integer.parseInt(br.readLine());
+			uid=br.readLine();
+			if(CheckIntegerUtil.testInteger(uid)){
+				break;
+			}
+			}
+			int id=Integer.parseInt(uid);
 			UserVO user = new UserVO();
 			user = uc.findUserById(id);
+			if(user!=null)
+			{
 			System.out.println("用户信息如下");
 			// 循环
 			System.out.println(user.getId() + "\t" + user.getUserid() + "\t"
 					+ user.getName() + "\t" + user.getPass() + "\t" + "\t"
 					+ user.getMail() + "\t" + user.getPower() + "\t"
 					+ user.getBirth() + "\t" + user.getStatus());
+			}
+			else{
+				System.out.println("你要查找的用户id不存在");
+			}
 		} catch (Exception e) {
 			// 显示异常信息
 			System.out.println("用户信息查询不到" + e.getMessage());
@@ -306,15 +335,31 @@ public class IndexFrame implements BaseFrame {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		System.out.println("用户查询界面");
 		System.out.println("=====================");
+		String pageNO=null;
+		String pageSize=null;
 		try {
 			UserController uc = new UserController();
 			Vector<UserVO> v = new Vector<UserVO>();
+			while(true){
 			System.out.println("请您输入页码：");
-			int pageNO = Integer.parseInt(br.readLine());
+		     pageNO =br.readLine();
+			if(CheckIntegerUtil.testInteger(pageNO))
+			{
+				break;
+			}
+			}
+			int pageNO1=Integer.parseInt(pageNO);
+			while(true){
 			System.out.println("请您输入页码大小：");
-			int pageSize = Integer.parseInt(br.readLine());
-			v = uc.doFindUsers(pageNO, pageSize);
+			pageSize =br.readLine();
+			if(CheckIntegerUtil.testInteger(pageSize))
+			{
+				break;
+			}
+			}
+			int pageSize2=Integer.parseInt(pageSize);
 			System.out.println("用户信息如下");
+			v=uc.doFindUsers(pageNO1, pageSize2);
 			// 循环
 			for (UserVO user : v)
 				System.out.println(user.getId() + "\t" + user.getUserid()
@@ -337,8 +382,17 @@ public class IndexFrame implements BaseFrame {
 		System.out.println("用户查询界面");
 		System.out.println("=====================");
 		try {
-			System.out.println("请输入你要删除的用户编号：");
-			int id = sc.nextInt();
+			String uid=null;
+			//判断输入的字符串是否为数字
+			while(true){
+				 System.out.println("请输入你要删除的用户编号：");
+			     uid =sc.next();
+				if(CheckIntegerUtil.testInteger(uid))
+				{
+					break;
+				}
+				}
+			int id=Integer.parseInt(uid);
 			UserController uc = new UserController();
 			boolean flag = uc.deleteUser(id);
 			// 如果返回值不为空，登录成功，显示用户信息
@@ -372,7 +426,15 @@ public class IndexFrame implements BaseFrame {
 			System.out.println("请输入您要修改的姓名：");
 			user.setName(br.readLine());
 			System.out.println("请输入您要修改的密码：");
+			while(true){
 			user.setPass(br.readLine());
+			if(!(user.getPass().equals(user1.getPass()))){
+				break;	
+			}
+			else{
+				System.out.println("你要修改的密码和原来的密码一样，请重新输入！");
+			}
+			}
 			while (true) {
 				System.out.println("请输入您要修改的邮箱：");
 				String mail = br.readLine();
@@ -382,8 +444,19 @@ public class IndexFrame implements BaseFrame {
 				}
 			}
 			user.setPower("普通用户");
-//			System.out.println("请输入您要修改的出生日期(YYYY-MM-DD)：");
-//			user.setBirth(TurnDateUtil.StrToDate(br.readLine()));
+			
+			while(true){
+				System.out.println("请输入您要修改的出生日期(YYYY-MM-DD)：");
+				String birth=br.readLine();
+				if(CheckDateUtil.testDate(birth))
+				{
+					user.setBirth(TurnDateUtil.StrToDate(birth));
+					break;
+				}
+				else{
+					System.out.println("你要输入的日期的格式不正确，请重新输入!");
+				}
+				}
 			// 调用控制器中的doLogin方法，进行用户登录操作
 			user.setStatus(user1.getStatus());
 			UserController uc = new UserController();
@@ -435,18 +508,18 @@ public class IndexFrame implements BaseFrame {
 			user.setUserid(br.readLine());
 			System.out.println("请输入您要修改的姓名：");
 			user.setName(br.readLine());
-			System.out.println("请输入您要修改的密码：");
+			//System.out.println("请输入您要修改的密码：");
 			user.setPass(user.getPass());
 			user.setMail(user.getMail());
 			user.setPower(user.getPower());
-			//user.setBirth(user.getBirth());
+			user.setBirth(user.getBirth());
 			user.setStatus(user.getStatus());
 			// 调用控制器中的doLogin方法，进行用户登录操作
 			// UserController uc = new UserController();
 			boolean binsert = uc.doUpdate(user);
 			// 如果放回值为真，插入成功，显示成功信息，否则插入失败，显示失败信息
 			if (binsert) {
-				System.out.println("用户信息信息成功");
+				System.out.println("用户信息修改成功");
 			} else {
 				System.out.println("用户信息修改失败");
 			}
@@ -460,6 +533,36 @@ public class IndexFrame implements BaseFrame {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
+	}
+	
+	public void deleteSelectShow(){
+		// 声明缓冲池处理流对象，用于接收控制台输入的数据
+		Scanner sc = new Scanner(System.in);
+		System.out.println("用户查询界面");
+		System.out.println("=====================");
+		try {
+			System.out.println("请输入5条你要批量删除的用户id删除的用户编号：");
+			int[] a=new int[5];
+			for(int i=0;i<5;i++)
+			{
+				a[i]=sc.nextInt();
+				System.out.println(a[i]);
+				
+			}
+			System.out.println(a[0]);
+			System.out.println(a);
+			UserController uc = new UserController();
+			boolean flag =uc.doDeleteSelect(a);
+			// 如果返回值不为空，登录成功，显示用户信息
+			if (flag) {
+				System.out.println("删除用户成功！");
+			} else {
+				System.out.println("删除用户失败！");
+			}
+		} catch (Exception e) {
+			// 显示异常信息
+			System.out.println("用户信息无法删除" + e.getMessage());
+		}
+		
 	}
 }

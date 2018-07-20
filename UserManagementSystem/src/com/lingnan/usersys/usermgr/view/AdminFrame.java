@@ -115,7 +115,8 @@ public class AdminFrame extends NormalFrame{
 			System.out.println("添加用户信息--------------------2");
 			System.out.println("修改用户信息--------------------3");
 			System.out.println("删除用户信息--------------------4");
-			System.out.println("退出系统-----------------------5");
+			//System.out.println("批量删除删除用户信息--------------5");
+			System.out.println("退出系统----------------------- 5");
 			
 			int i=-1;
 			//读取用户控制台输入，如果输入值正确，中断循环，否则提示错误信息，再重新输入
@@ -151,6 +152,9 @@ public class AdminFrame extends NormalFrame{
 			case 4:
 				this.deleteShow();
 				break;
+//			case 5:
+//				this.deleteSelectShow();
+//				break;
 			case 5:
 				System.out.println("感谢您的使用");
 				//退出当前界面
