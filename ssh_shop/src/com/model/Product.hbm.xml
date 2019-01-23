@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+ <hibernate-mapping package="com.model">
+ 	<class name="Product" table="product">
+        <id name="pid"  column="pid">
+         
+            <generator class="native" />
+        </id>
+        <!-- 直接使用property属性设置 -->
+        <property name="pname"  column="pname"/>
+        <many-to-one name="category" column="cid" class="Category"></many-to-one>
+        <one-to-one name="productInfor" class="ProductInfor" property-ref="product"></one-to-one>
+
+     
+
+
+  </class>
+
+ </hibernate-mapping>
+ 

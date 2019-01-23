@@ -3,8 +3,8 @@ package com.lingnan.usersys.common.util;
 public class CheckMailUtil {
 	/**
 	 * 邮箱的格式判断
-	 * @param str
-	 * @return
+	 * @param str 字符串
+	 * @return  匹配返回true，否则返回false
 	 */
 	public static boolean testMail(String str)
 	{

@@ -15,7 +15,7 @@ public class DaoException extends RuntimeException{
 	}
 	/**
 	 *构造函数
-	 * @param arg0异常的详细信息
+	 * @param arg0   异常的详细信息
 	 */
 	public DaoException(String arg0)
 	{
@@ -23,7 +23,7 @@ public class DaoException extends RuntimeException{
 	}
 	/**
 	 * 构造函数
-	 * @param e异常的原因
+	 * @param e     异常的原因
 	 */
 	public DaoException(Throwable e)
 	{
@@ -31,8 +31,8 @@ public class DaoException extends RuntimeException{
 	}
 	/**
 	 * 构造函数
-	 * @param arg0异常的详细信息
-	 * @param e异常的原因
+	 * @param arg0    异常的详细信息
+	 * @param e     异常的原因
 	 */
 	public DaoException(String arg0,Throwable e)
 	{

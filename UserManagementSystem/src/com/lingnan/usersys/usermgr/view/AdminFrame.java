@@ -12,7 +12,7 @@ import com.lingnan.usersys.usermgr.domain.UserVO;
 public class AdminFrame extends NormalFrame{
 	/**
 	 * 带参数的构造器，用于初始化user属性
-	 * @param user
+	 * @param user   用户信息
 	 */
 	public AdminFrame(UserVO user)
 	{

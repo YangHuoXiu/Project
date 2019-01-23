@@ -490,8 +490,15 @@ public class IndexFrame implements BaseFrame {
 			// 实例化用户对象
 			UserVO user = new UserVO();
 			// 读取输入的各个值，赋值给用户对象的各个属性
+			String uid=null;
+			while(true){
 			System.out.println("请输入你要修改的用户的编号");
-			int id = Integer.parseInt(br.readLine());
+			uid=br.readLine();
+			if(CheckIntegerUtil.testInteger(uid)){
+				break;
+			}
+			}
+			int id=Integer.parseInt(uid);
 			UserController uc = new UserController();
 			user = uc.findUserById(id);
 			// 如果返回值不为空，登录成功，显示用户信息

@@ -10,7 +10,7 @@ public class ServiceException extends RuntimeException{
 	}
 	/**
 	 * 构造函数
-	 * @param arg0 异常的详细信息
+	 * @param arg0   异常的详细信息
 	 */
 	public ServiceException(String arg0)
 	{
@@ -26,8 +26,8 @@ public class ServiceException extends RuntimeException{
 	 }
 	 /**
 	  * 构造函数
-	  * @param arg0异常的详细信息
-	  * @param e异常的产生原因
+	  * @param arg0     异常的详细信息
+	  * @param e    异常的产生原因
 	  */
 	 public ServiceException(String arg0,Throwable e)
 	 {

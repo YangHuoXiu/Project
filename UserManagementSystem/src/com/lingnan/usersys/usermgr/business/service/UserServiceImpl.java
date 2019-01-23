@@ -30,7 +30,7 @@ public class UserServiceImpl implements UserService {
 	/**
 	 * 取得用户service实例
 	 * 
-	 * @return
+	 * @return service
 	 */
 	public static UserService getInstance() {
 		return userService;

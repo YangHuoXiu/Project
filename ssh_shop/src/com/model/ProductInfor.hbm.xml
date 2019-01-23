@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+ <hibernate-mapping package="com.model">
+ 	<class name="ProductInfor" table="productinfor">
+        <id name="desid"  column="desid">
+            <generator class="native" />
+        </id>
+        <!-- 直接使用property属性设置 -->
+        <property name="desName" column="desName"></property>
+        <property name="price" column="price"></property>
+        <property name="size" column="size"></property>
+        <property name="sumnum" column="sumnum"></property>
+        <property name="image" column="image"></property>
+        <property name="color" column="color"></property>
+        <many-to-one name="product" cascade="all" class="Product" column="pid" unique="true"></many-to-one>
+  </class>
+
+ </hibernate-mapping>
+ 

@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+
+	<constant name="struts.configuration.xml.reload" value="true"></constant>
+	
+	<!-- 图片上传与下载 -->
+	<constant name="struts.multipart.maxSize" value="20971520"></constant>
+	<constant name="struts.custom.i18n.resources" value="com.controller.fileload"></constant>
+	
+	<constant name="struts.enable.DynamicMethodInvocation" value="true"></constant><!-- 
+		动态调用 -->
+	<!-- <constant name="struts.objectFactory" value="spring" /> -->
+
+	<package name="p1" extends="struts-default">
+	
+	<!-- 配置自定义拦截器 -->
+		<interceptors>
+	<interceptor name="userInterceptor" class="UserInterceptorAction"/>
+			
+		</interceptors>
+		
+		<global-results>
+			<result name="input">/login.jsp</result>
+		</global-results>
+	
+	<!-- 图片上传与下载 -->
+		<action name="upload" class="UploadAction" method="upload">
+			<!-- <interceptor-ref name="defaultStack"> 限制上传文件的扩展名。如果有多个，使用逗号分隔 <param 
+				name="fileUpload.allowedExtensions">jpg,png,bmp</param> 限制文件上传的MIME类型。如果有多个，使用逗号隔开 
+				<param name="fileUpload.allowedTypes">image/bmp,image/pjpeg,image/jpg</param> 
+				</interceptor-ref> -->
+			<result name="input">/upload.jsp</result>
+		</action>
+	
+		<!-- user -->
+		<action name="useraction" class="userAction">
+			<result name="success" type="redirect">findUserAll</result>
+		</action>
+
+		<!-- product -->
+		<action name="productaction" class="productAction">
+			<result name="success" type="redirect">findAllProduct</result>
+		</action>
+
+		<action name="findAllProduct" class="productAction" method="findAllProduct">
+			<result name="success">/product_index.jsp</result>
+		</action>
+
+		<action name="findByPid" class="productAction" method="findByPid">
+			<result name="success">/product.jsp</result>
+		</action>
+		
+		<!-- ***************** -->
+		<action name="edit" class="productAction" method="findByPid">
+			<result name="success">/admin/product/edit.jsp</result>
+		</action>
+		<action name="update_product" class="productAction" method="update">
+			<result name="success" type="redirectAction">adminFindAllProduct.action?page=1</result>
+		</action>
+		<action name="delete_product" class="productAction" method="delete">
+			<result name="success" type="redirectAction">adminFindAllProduct.action?page=1</result>
+		</action>
+		<action name="save_product" class="productAction" method="save">
+			<result name="success" type="redirectAction">adminFindAllProduct.action?page=1</result>
+		</action >
+		<action name="fuzzySearch_product" class="productAction" method="fuzzySearch">
+			<result name="fuzzySearch">/admin/product/fuzzySearch.jsp</result>
+		</action>
+		
+		<!-- orderitem********************* -->
+		<action name="find" class="orderItemsAction" method="findAll">
+			<result name="success">/admin/order/list.jsp</result>
+		</action>
+
+		<action name="delete" class="orderItemsAction" method="delete">
+			<result name="success" type="redirect">find</result>
+			<result name="fail">orderItems_index.jsp</result>
+		</action>
+
+
+		<action name="findById" class="orderItemsAction" method="findById">
+			<result name="update1">orderItems_update.jsp</result>
+
+		</action>
+
+
+		<action name="update" class="orderItemsAction" method="update">
+			<result name="success" type="redirect">find</result>
+			<result name="fail" type="redirect">find</result>
+		</action>
+
+		<action name="save" class="orderItemsAction" method="save">
+			<result name="success" type="redirect">find</result>
+		</action>
+
+		<!-- 订单的productOrderAction -->
+		<action name="order_*" class="productOrderAction" method="{1}">
+			<result name="saveOrder">/order.jsp</result>
+			<result name="findByUid">/orderList.jsp</result>
+			<result name="findByOid">/order.jsp</result>
+			<result name="updateStateSuccess" type="redirectAction">order_findByUid</result>
+		</action>
+		
+		<!-- 购物车的Action -->
+		<action name="cart_*" class="cartAction" method="{1}">
+			<result name="addCart">/cart.jsp</result>
+			<result name="clearCart">/cart.jsp</result>
+			<result name="removeCart">/cart.jsp</result>
+			<result name="myCart">/cart.jsp</result>
+			<interceptor-ref name="userInterceptor"/>
+			<interceptor-ref name="defaultStack"/>
+		</action>
+
+		<!-- 登录****************************begin -->
+		<action name="login" class="userAction" method="UserLogin">
+<!-- 			<result name="success" type="redirect">index.jsp</result> -->
+			<result name="success" type="redirect">findAllProduct</result>
+			<result name="input">/login.jsp</result>
+			<interceptor-ref name="userInterceptor">
+				<param name="excludeMethods">UserLogin</param>
+			</interceptor-ref>
+			<interceptor-ref name="defaultStack"/>
+		</action>
+		<action name="adminLogin" class="userAction" method="AdminLogin">
+			<result name="success">/admin/home.jsp</result>
+			<result name="input">/admin/index.jsp</result>
+			<interceptor-ref name="defaultStack" />
+		</action>
+		<!-- 登录****************************end -->
+
+		<!-- 注册+校验用户是否存在(findByNmae)************begin* -->
+		<action name="user_*" class="userAction" method="{1}">
+			<result name="success">login.jsp</result>
+			<result name="input">regist.jsp</result>
+			<result name="quit" type="redirectAction">findAllProduct</result>
+		</action>
+		<!-- 注册+校验用户是否存在(findByNmae)************end -->
+
+		<!-- 验证码Action************begin -->
+		<action name="checkImg" class="checkImgAction"></action>
+		<!-- 验证码Action************end -->
+
+		<action name="update" class="userAction" method="update">
+			<result name="success">/login.jsp</result>
+		</action>
+
+		<!-- 后台用户管理Action************begin -->
+		<action name="userAdmin_*" class="userAction" method="{1}">
+			<result name="findAllUser">/admin/user/list.jsp</result>
+			<result name="fuzzySearch">/admin/user/fuzzySearch.jsp</result>
+			<result name="deleteSuccess" type="redirectAction">userAdmin_findAll.action?page=1
+			</result>
+			<result name="editSuccess">/admin/user/edit.jsp</result>
+			<result name="updateSuccess" type="redirectAction">userAdmin_findAll.action?page=1
+			</result>
+			<interceptor-ref name="defaultStack" />
+		</action>
+		
+	
+		<action name="BatchDelete" class="userAction" method="BatchDelete">
+			<result name="BatchDelete" type="redirect">userAdmin_findAll.action?page=1</result>
+		</action>
+		
+		<!-- 后台系统对商品的操作 -->
+		<action name="adminFindAllProduct" class="productAction" method="adminFindAllProduct">
+			<result name="adminsuccess">/admin/product/list.jsp</result>
+		</action>
+		<!-- 后台用户管理Action************end -->
+		
+		
+		
+		<!-- Category -->
+		<action name="category_*" class="categoryAction" method="{1}">
+			<result name="findAllSuccess">/admin/category/list.jsp</result>
+			<result name="saveSuccess" type="redirectAction">category_findAllCategory.action?page=1</result>
+			<result name="deleteSuccess" type="redirectAction">category_findAllCategory.action?page=1</result>
+			<result name="updateSuccess" type="redirectAction">category_findAllCategory.action?page=1</result>
+			<result name="editSuccess">/admin/category/edit.jsp</result>
+			<interceptor-ref name="defaultStack" />
+		</action>
+
+	</package>
+
+</struts>

@@ -13,7 +13,7 @@ public class UserController {
 	/**
 	 *用户登录
 	 * @param name 用户名
-	 * @param password用户密码
+	 * @param password    用户密码
 	 * @return 用户信息
 	 */
 	public UserVO doLogin(String name,String password)
@@ -33,7 +33,7 @@ public class UserController {
 	
 	/**
 	 * 用户注册
-	 * @param user用户信息
+	 * @param user    用户信息
 	 * @return 注册成功返回true,失败返回false
 	 */
 	public boolean doRegister(UserVO user)
@@ -155,11 +155,11 @@ public class UserController {
 		}
 		return v;
 	}
-	/**
-	 * 查找所有的有效用户
-	 * @param id 
-	 * @return 用户信息集合
-	 */
+
+/**
+ * 查找所有的有效用户
+ * @return 用户集合
+ */
 	public Vector<UserVO> doFindAllValid(){
 		Vector<UserVO> v=new Vector<UserVO>();
 		try{

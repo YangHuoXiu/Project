@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+ <hibernate-mapping package="com.model">
+  <!--  name和table的字段值不能一样 -->
+ 	<class name="Category" table="category">
+        <id name="cid"  column="cid">
+            <generator class="native" />
+        </id>
+        <!-- 直接使用property属性设置 -->
+        <property name="cname" column="cname"/>
+        
+        <set name="product" inverse="true" cascade="save-update">
+        <key column="cid"></key>
+        <one-to-many class="Product"/>
+        </set>
+
+  </class>
+
+ </hibernate-mapping>
+ 

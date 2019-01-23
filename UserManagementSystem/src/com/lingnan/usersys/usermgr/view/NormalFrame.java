@@ -15,7 +15,7 @@ public class NormalFrame extends IndexFrame{
 	UserVO user=null;
 	/**
 	 * 带参数的构造器，用于初始化user属性
-	 * @param user
+	 * @param user 用户信息
 	 */
 	public NormalFrame(UserVO user)
 	{ 

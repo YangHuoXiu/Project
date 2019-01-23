@@ -27,7 +27,7 @@ public class UserVO {
 	
 	/**
 	 *  将用户编号设置为id
-	 * @param id
+	 * @param id 用户id
 	 */
 	public void setId(int id) {
 		this.id = id;
@@ -41,7 +41,7 @@ public class UserVO {
 	}
 	/**
 	 *  将用户账号设置为useid
-	 * @param userid
+	 * @param userid 用户账号
 	 */
 	public void setUserid(String userid) {
 		this.userid = userid;
@@ -57,7 +57,7 @@ public class UserVO {
 	
 	/**
 	 * 将用户名设置为 name
-	 * @param  name
+	 * @param  name 用户名
 	 */
 	public void setName(String name) {
 		this.name = name;
@@ -73,7 +73,7 @@ public class UserVO {
 	
    /**
     * 将密码设置为mail
-    * @param pass
+    * @param pass 用户密码
     */
 	public void setPass(String pass) {
 		this.pass = pass;
@@ -88,7 +88,7 @@ public class UserVO {
 	}
 	/**
 	 * 将邮箱设置为 mail
-	 * @param mail
+	 * @param mail 用户邮箱
 	 */
 	public void setMail(String mail) {
 		this.mail = mail;
@@ -103,7 +103,7 @@ public class UserVO {
 	}
 	/**
 	 * 将权限设置为power
-	 * @param power
+	 * @param power 用户权限
 	 */
 	public void setPower(String power) {
 		this.power = power;
@@ -117,7 +117,7 @@ public class UserVO {
 	}
 	/**
 	 * 将出生日期设置为birth
-	 * @param birth
+	 * @param birth 出生日期
 	 */
 	public void setBirth(Date birth) {
 		this.birth = birth;
@@ -132,7 +132,7 @@ public class UserVO {
 	
 	/**
 	 * 将用户状态设置为status
-	 * @param status
+	 * @param status 状态
 	 */
 	public void setStatus(String status) {
 		this.status = status;

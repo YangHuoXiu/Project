@@ -8,9 +8,10 @@ public class DateException extends DaoException{
 	{
 		
 	}
+
 	/**
-	 *构造函数
-	 * @param agr0异常的详细信息
+	 * 构造函数
+	 * @param arg0 参数
 	 */
 	public DateException(String arg0)
 	{
@@ -19,7 +20,7 @@ public class DateException extends DaoException{
 	
 	/**
 	 * 构造函数
-	 * @param e异常产生的原因
+	 * @param e 异常产生的原因
 	 */
 	public DateException(Throwable e)
 	{
@@ -27,8 +28,8 @@ public class DateException extends DaoException{
 	}
 	/**
 	 * 构造函数
-	 * @param arg0异常产生的详细信息
-	 * @param e异常产生的原因
+	 * @param arg0    异常产生的详细信息
+	 * @param e     异常产生的原因
 	 */
 	public DateException(String arg0,Throwable e)
 	{

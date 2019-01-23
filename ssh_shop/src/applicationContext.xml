@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:contxt="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans 
+                              http://www.springframework.org/schema/beans/spring-beans.xsd
+                              http://www.springframework.org/schema/context
+       					  	 http://www.springframework.org/schema/context/spring-context.xsd
+                              http://www.springframework.org/schema/aop 
+                              http://www.springframework.org/schema/aop/spring-aop.xsd
+                              http://www.springframework.org/schema/tx 
+                              http://www.springframework.org/schema/tx/spring-tx.xsd"
+                              default-autowire="byName" default-lazy-init="true">
+<!-- struts2自己创建Action的配置，就不需要21到24行的代码，如果是spring创建action，则需要 -->
+<!-- 
+    action中的userService对象，在这里配置就能够获取到。为什么能够直接配置就能够得到，
+    需要导入struts-spring-plugin...jar，因为有它和default.properties的结合所以才能够直接配置得到
+ -->
+<bean id="UserServiceimpl" class="com.service.UserServiceimpl">
+<!-- userDao在hibernate整合时就已经创建了bean，所以就直接拿过来用 -->
+    <property name="UserDaoimpl" ref="UserDaoimpl"></property>
+</bean>          
+<!-- 配置action -->
+<bean id="userAction" class="com.Action.UserAction">
+    <property name="UserServiceimpl" ref="UserServiceimpl"></property>
+</bean> 
+<!-- 图片上传与下载 -->
+<bean id="UploadAction" class="com.Action.UploadAction">
+</bean> 
+
+<!-- 拦截器 -->
+<bean id="UserInterceptorAction" class="com.Action.UserInterceptorAction"></bean>
+
+<!-- 配置验证码****************************begin -->
+<!-- 可以利用容器的scope="prototype"来保证每一个请求有一个单独的Action来处理，避免struts中Action的线程安全问题 -->
+<bean id="checkImgAction" class="com.Action.CheckImgAction" scope="prototype">
+</bean>
+<!-- 配置验证码****************************end -->
+
+<!-- product表 -->
+<bean id="ProductServiceimpl" class="com.service.ProductServiceimpl">
+<!-- userDao在hibernate整合时就已经创建了bean，所以就直接拿过来用 -->
+    <property name="ProductDaoimpl" ref="ProductDaoimpl"></property>
+</bean>          
+<!-- 配置action -->
+<bean id="productAction" class="com.Action.ProductAction">
+    <property name="ProductServiceimpl" ref="ProductServiceimpl"></property>
+</bean> 
+
+<bean id="OrderItemsServiceimpl" class="com.service.OrderItemsServiceimpl">
+<!-- userDao在hibernate整合时就已经创建了bean，所以就直接拿过来用 -->
+    <property name="OrderItemsDaoimpl" ref="OrderItemsDaoimpl"></property>
+</bean>     
+
+<!-- ProductOrder表-->
+
+<bean id="ProductOrderserviceimpl" class="com.service.ProductOrderserviceimpl">
+<!-- userDao在hibernate整合时就已经创建了bean，所以就直接拿过来用 -->
+    <property name="ProductOrderimpl" ref="ProductOrderimpl"></property>
+</bean>          
+<!-- 配置action -->
+
+<bean id="productOrderAction" class="com.Action.ProductOrderAction">
+    <property name="ProductOrderserviceimpl" ref="ProductOrderserviceimpl"></property>
+</bean> 
+ 
+<!-- 购物车的Action -->
+	<bean id="cartAction" class="com.Action.CartAction" scope="prototype">
+		<property name="ProductServiceimpl" ref="ProductServiceimpl"/>
+	</bean>
+
+<bean id="orderItemsAction" class="com.Action.OrderItemsAction">
+    <property name="OrderItemsServiceimpl" ref="OrderItemsServiceimpl"></property>
+</bean>
+
+<!-- category -->
+<bean id="categoryAction" class="com.Action.CategoryAction">
+    <property name="CategoryServiceimpl" ref="categoryServiceimpl"></property>
+</bean>
+<bean id="categoryServiceimpl" class="com.service.CategoryServiceimpl">
+<!-- userDao在hibernate整合时就已经创建了bean，所以就直接拿过来用 -->
+    <property name="CategoryDaoimpl" ref="categoryDaoimpl"></property>
+</bean>
+<bean id="categoryDaoimpl" class="com.dao.impl.CategoryDaoimpl">
+     <property name="sessionFactory" ref="sessionFactory"></property>
+</bean>
+
+<!-- hibernate -->
+<!-- 配置数据源  c3p0,-->
+<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+    <property name="driverClass" value="com.mysql.jdbc.Driver"></property>
+    <property name="jdbcUrl" value="jdbc:mysql://localhost:3306/market"></property>
+    <property name="user" value="root"></property>
+    <property name="password" value="123456"></property>
+</bean>
+
+<!-- 获取sessionFactory需要加载hibernate.cfg.xml获取其中的配置的信息，那么直接将那些配置信息在这里配置 -->
+<bean id="sessionFactory" class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+    <property name="dataSource" ref="dataSource"></property>
+    <!-- 配置一些其他的信息，方言等 -->
+    <property name="hibernateProperties">
+        <props>
+            <prop key="hibernate.dialect">
+                org.hibernate.dialect.MySQLDialect
+            </prop>
+            <prop key="hibernate.show_sql">true</prop>
+            <prop key="hibernate.format_sql">true</prop>
+            <prop key="hibernate.hbm2ddl.auto">update</prop>            
+        </props>
+    </property>
+    <!-- 添加映射文件 -->
+   <property name="mappingLocations">
+    <list>
+    <value>classpath:com/model/User.hbm.xml</value>
+    <value>classpath:com/model/UserInfor.hbm.xml</value>
+    <value>classpath:com/model/ProductOrder.hbm.xml</value>
+    <value>classpath:com/model/Product.hbm.xml</value>
+    <value>classpath:com/model/ProductInfor.hbm.xml</value>
+    <value>classpath:com/model/OrderItems.hbm.xml</value>
+    <value>classpath:com/model/Category.hbm.xml</value>
+    <value>classpath:com/model/AddressInfor.hbm.xml</value>
+    </list>
+    </property>
+</bean>
+
+<!-- hibernate中通过sessionFactory创建得session对对象进行操作，spring提供一个hibernateTemplate进行操作，跟spring中的jdbcTemplate一样，
+    继承HibernateDaoSupport后，注入SessionFactory即可，在dao层就不用在写hibernateTemplate的set方法了。
+ -->
+ <bean id="UserDaoimpl" class="com.dao.impl.UserDaoimpl">
+     <property name="sessionFactory" ref="sessionFactory"></property>
+ </bean>
+ 
+ <bean id="ProductDaoimpl" class="com.dao.impl.ProductDaoimpl">
+     <property name="sessionFactory" ref="sessionFactory"></property>
+ </bean>
+ 
+ <bean id="OrderItemsDaoimpl" class="com.dao.impl.OrderItemsDaoimpl">
+     <property name="sessionFactory" ref="sessionFactory"></property>
+ </bean>
+ 
+ <bean id="ProductOrderimpl" class="com.dao.impl.ProductOrderimpl">
+     <property name="sessionFactory" ref="sessionFactory"></property>
+ </bean>
+ 
+ <!-- hiberntae事务管理器,也需要将sessionFactory加进来，从hibernate中得代码就可以看出来，事务也是由sessionFactory获取来的-->
+<bean id="txManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+    <property name="sessionFactory" ref="sessionFactory"></property>
+</bean>
+<!-- 事务详情 -->
+<tx:advice id="txAdvice" transaction-manager="txManager">
+    <tx:attributes>
+        <tx:method name="add" propagation="REQUIRED"/>
+        <tx:method name="update" propagation="REQUIRED"/>
+        <tx:method name="register" propagation="REQUIRED"/>
+    </tx:attributes>
+</tx:advice>
+ 
+<!-- aop事务管理 ，要使用事务和aop，需要在上面导入dtd。我这里图方便，没写接口，所以需要叫spring使用cglib-->
+<aop:aspectj-autoproxy proxy-target-class="true"></aop:aspectj-autoproxy>
+<aop:config>
+    <aop:advisor advice-ref="txAdvice" pointcut="execution(* com.service.*.*(..))"/>
+</aop:config>
+</beans>

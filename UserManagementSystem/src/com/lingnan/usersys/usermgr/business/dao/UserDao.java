@@ -8,7 +8,7 @@ import com.lingnan.usersys.usermgr.domain.UserVO;
 
 /**
  * dao接口
- * @11author Administrator
+ * @author Administrator
  *
  */
 public interface UserDao extends BaseDao{
@@ -19,10 +19,11 @@ public interface UserDao extends BaseDao{
 	 * @return 返回用户信息
 	 */
 	public UserVO login(String name, String password);
+	
 	/**
 	 * 用户注册
-	 * @param u
-	 * @return
+	 * @param user 用户信息
+	 * @return 注册成功返回ture，否则返回false
 	 */
 	public boolean register(UserVO user);
 	

@@ -11,7 +11,7 @@ public interface BaseFrame {
 	
 	/**
 	 * 添加用户应页面显示
-	 * @param type
+	 * @param type 类型
 	 */
 	public void addShow(String type);
 	

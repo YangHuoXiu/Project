@@ -18,9 +18,8 @@ public class DBUtil {
 	/**
 	 * 获取数据库连接
 	 * 
-	 * return 
+	 * @return conn
 	 */
-
 	public static Connection getConnection() {
 		Connection conn = null;
 		String url = "jdbc:oracle:thin:@localhost:1521:orcl";
@@ -53,7 +52,7 @@ public class DBUtil {
 	 * 
 	 * 开始事务
 	 * 
-	 * @param conn
+	 * @param conn 连接
 	 */
 	public static void beginTransaction(Connection conn) {
 		try {
@@ -68,7 +67,7 @@ public class DBUtil {
 
 	/**
 	 * 提交事务
-	 * @param conn
+	 * @param conn 连接
 	 */
 	public static void commit(Connection conn) {
 		try {
@@ -84,7 +83,7 @@ public class DBUtil {
 	
 	/**
 	 * 回滚事务
-	 * @param conn
+	 * @param conn 连接
 	 */
 	public static void rollback(Connection conn)
 	{
@@ -102,7 +101,7 @@ public class DBUtil {
 	
 	/**
 	 * 关闭连接
-	 * @param conn
+	 * @param conn  连接
 	 */
 	public static void closeConncetion(Connection conn)
 	{
@@ -121,8 +120,8 @@ public class DBUtil {
 	}
 	/**
 	 * 关闭resultset,statement
-	 * @param rs
-	 * @param stat
+	 * @param rs  结果集
+	 * @param stat 处理数据库
 	 */
 	public static void closeStatement(ResultSet rs,Statement stat)
 	{
